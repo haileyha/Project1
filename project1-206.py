@@ -88,25 +88,41 @@ def findMonth(a):
 	return int(sorted(dct, key = lambda x: dct[x], reverse = True)[0])
 
 
-#def mySortPrint(a,col,fileName):
+def mySortPrint(a,col,fileName):
 #Similar to mySort, but instead of returning single
 #Student, the sorted data is saved to a csv file.
-# as fist,last,email
+# as first,last,email
 #Input: list of dictionaries, col (key) to sort by and output file name
 #Output: No return value, but the file is written
+	outfile = open(fileName, "w")
+	#output each of the rows
+	sorted_dicts = sorted(a, key = lambda x: x[col])
+	for person in sorted_dicts:
+		outfile.write("{}, {}, {}\n".format(person["First"], person["Last"], person["Email"]))
 
-	pass
+	outfile.close()
 
-#def findAge(a):
+
+def findAge(a):
 # Input: list of dictionaries
 # Output: Return the average age of the students and round that age to the nearest
 # integer.  You will need to work with the DOB and the current date to find the current
 # age in years.
+	lst = []
+	now = date.today()
+	right_lst = a[1:]
+	for person in right_lst: 
+		values = person["DOB"].split("/")
+		month_born = int(values[0])
+		day_born = int(values[1])
+		year_born = int(values[2])
+		
+		age = (now.year - year_born) - ((now.month, now.day) < (month_born, day_born))
+		lst.append(int(age))
+	average = int(round(sum(lst)/len(lst)))
+	return average
+		
 
-	pass
-
-dictlst = getData("P1DataA.csv")
-mySort(dictlst, "Class")
 ################################################################
 ## DO NOT MODIFY ANY CODE BELOW THIS
 ################################################################
@@ -152,16 +168,16 @@ def main():
 	total += test(findMonth(data),3,15)
 	total += test(findMonth(data2),3,15)
 
-	# print("\nSuccessful sort and print to file:")
-	# mySortPrint(data,'Last','results.csv')
-	# if os.path.exists('results.csv'):
-	# 	total += test(filecmp.cmp('outfile.csv', 'results.csv'),True,20)
+	print("\nSuccessful sort and print to file:")
+	mySortPrint(data,'Last','results.csv')
+	if os.path.exists('results.csv'):
+		total += test(filecmp.cmp('outfile.csv', 'results.csv'),True,20)
 
-	# print("\nTest of extra credit: Calcuate average age")
-	# total += test(findAge(data), 40, 5)
-	# total += test(findAge(data2), 42, 5)
+	print("\nTest of extra credit: Calcuate average age")
+	total += test(findAge(data), 40, 5)
+	total += test(findAge(data2), 42, 5)
 
-	# print("Your final score is " + str(total))
+	print("Your final score is " + str(total))
 
 # Standard boilerplate to call the main() function that tests all your code
 if __name__ == '__main__':
