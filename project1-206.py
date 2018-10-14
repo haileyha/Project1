@@ -77,8 +77,16 @@ def findMonth(a):
 # Find the most common birth month from this data
 # Input: list of dictionaries
 # Output: Return the month (1-12) that had the most births in the data
-	
-	pass
+	dct = {}
+	for person in a:
+		month = person["DOB"].split("/")[0]
+		if month not in dct:
+			dct[month] = 1
+		else:
+			dct[month] += 1
+
+	return int(sorted(dct, key = lambda x: dct[x], reverse = True)[0])
+
 
 #def mySortPrint(a,col,fileName):
 #Similar to mySort, but instead of returning single
@@ -140,9 +148,9 @@ def main():
 	total += test(classSizes(data),[('Junior', 28), ('Senior', 27), ('Freshman', 23), ('Sophomore', 22)],25)
 	total += test(classSizes(data2),[('Senior', 26), ('Junior', 25), ('Freshman', 21), ('Sophomore', 18)],25)
 
-	# print("\nThe most common month of the year to be born is:")
-	# total += test(findMonth(data),3,15)
-	# total += test(findMonth(data2),3,15)
+	print("\nThe most common month of the year to be born is:")
+	total += test(findMonth(data),3,15)
+	total += test(findMonth(data2),3,15)
 
 	# print("\nSuccessful sort and print to file:")
 	# mySortPrint(data,'Last','results.csv')
