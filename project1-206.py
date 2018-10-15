@@ -96,9 +96,10 @@ def mySortPrint(a,col,fileName):
 #Output: No return value, but the file is written
 	outfile = open(fileName, "w")
 	#output each of the rows
-	sorted_dicts = sorted(a, key = lambda x: x[col])
+	lst = a[1:]
+	sorted_dicts = sorted(lst, key = lambda x: x[col])
 	for person in sorted_dicts:
-		outfile.write("{}, {}, {}\n".format(person["First"], person["Last"], person["Email"]))
+		outfile.write("{},{},{}\n".format(person["First"].strip(),person["Last"].strip(),person["Email"].strip()))
 
 	outfile.close()
 
